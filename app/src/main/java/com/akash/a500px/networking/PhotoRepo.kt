@@ -22,9 +22,11 @@ class PhotoRepo private constructor(){
         }
     }
 
-    fun getPhotosFromServer(callBack: SimpleApiCallBack<List<Photo>>){
-        AndroidNetworking.get(Config.getPhotoUrl).build().getAsJSONObject(object : JSONObjectRequestListener{
+    fun getPhotosFromServer(pagingParam: PagingParam, callBack: SimpleApiCallBack<List<Photo>>){
+
+        AndroidNetworking.get(Config.getPhotoUrl(pagingParam.toString())).build().getAsJSONObject(object : JSONObjectRequestListener{
             override fun onResponse(response: JSONObject?) {
+                pagingParam.totalPage = response?.getInt("total_pages")!!
                 val factoryList = Photo.factoryList(response)
                 callBack.onResponse(factoryList, true)
             }
