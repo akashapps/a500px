@@ -1,8 +1,8 @@
 package com.akash.a500px.view_holder
 
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
+import androidx.recyclerview.widget.RecyclerView
 import com.akash.a500px.R
 import com.akash.a500px.model.Photo
 import com.bumptech.glide.Glide
