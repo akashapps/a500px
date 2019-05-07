@@ -9,7 +9,8 @@ class Photo {
     var imageUrl: String = ""
     var height: Int = 0
     var width: Int = 0
-    var numOfColumn: Int = 1
+    var imageRatio: Float = 0f
+    var column: Int = 1
 
     constructor(jsonObject: JSONObject){
         id = jsonObject.getInt("id")
@@ -60,20 +61,20 @@ class Photo {
             for (photo in photoList){
                 var ratio = photo.width / photo.height.toFloat()
 
-                photo.numOfColumn = ratio.toInt()
-                result.add(photo)
+                photo.imageRatio = ratio
 
+                result.add(photo)
                 rowRatio += ratio
 
                 if (rowRatio > 2f){
                     var used = 0
 
                     for (photoRow in row){
-                        photoRow.numOfColumn = ((Config.NUMBER_OF_COLUMN * photoRow.numOfColumn) / rowRatio).toInt()
-                        used += photoRow.numOfColumn
+                        photoRow.column = ((Config.NUMBER_OF_COLUMN * photoRow.column) / rowRatio).toInt()
+                        used += photoRow.column
                     }
 
-                    photo.numOfColumn = Config.NUMBER_OF_COLUMN - used
+                    photo.column = Config.NUMBER_OF_COLUMN - used
 
                     row.clear()
                     rowRatio = 0f

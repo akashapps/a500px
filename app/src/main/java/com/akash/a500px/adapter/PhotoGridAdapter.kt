@@ -17,12 +17,16 @@ class PhotoGridAdapter(private val context: Context): RecyclerView.Adapter<Photo
     var photoList = ArrayList<Photo>()
     val spanLookup = object : GridLayoutManager.SpanSizeLookup() {
         override fun getSpanSize(i: Int): Int {
-            return photoList[i].numOfColumn
+            return photoList[i].column
         }
     }
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): PhotoViewHolder {
         return PhotoViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item_photo, p0, false))
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return photoList[position].column
     }
 
     override fun getItemCount(): Int {

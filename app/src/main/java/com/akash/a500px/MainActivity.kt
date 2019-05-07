@@ -26,14 +26,13 @@ class MainActivity : AppCompatActivity(), ScrollListener {
         photoViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(PhotoViewModel::class.java)
 
         recyclerView = findViewById(R.id.recycler_view)
-        adapter = PhotoGridAdapter(this);
-
         val layoutManager = GridLayoutManager(this, Config.NUMBER_OF_COLUMN)
-        layoutManager.spanSizeLookup = adapter!!.spanLookup
+        recyclerView.layoutManager = layoutManager
 
+        adapter = PhotoGridAdapter(this);
         recyclerView.adapter = adapter
 
-        recyclerView.layoutManager = layoutManager
+        layoutManager.spanSizeLookup = adapter!!.spanLookup
 
         adapter!!.scrollListener = this
 
