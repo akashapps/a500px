@@ -10,6 +10,7 @@ class Photo() : Parcelable {
 
     var imageUrl: String = ""
     var imageFormat: String = ""
+    var name: String = ""
 
     var height: Int = 0
 
@@ -30,6 +31,7 @@ class Photo() : Parcelable {
         imageUrl = jsonObject.getJSONArray("image_url")[0].toString()
 
         imageFormat = jsonObject.getString("image_format")
+        name = jsonObject.getString("name")
     }
 
     // endregion
@@ -55,6 +57,8 @@ class Photo() : Parcelable {
         imageUrl = source.readString()
         height = source.readInt()
         width = source.readInt()
+        imageFormat = source.readString()
+        name = source.readString()
     }
 
     override fun describeContents() = 0
@@ -64,6 +68,8 @@ class Photo() : Parcelable {
         dest.writeString(imageUrl)
         dest.writeInt(height)
         dest.writeInt(width)
+        dest.writeString(imageFormat)
+        dest.writeString(name)
     }
 
     // endregion

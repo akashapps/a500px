@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -12,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.ImageView;
+import androidx.appcompat.widget.AppCompatImageView;
 
 /**
  * Created by akashpatel on 2017-05-24.

@@ -1,9 +1,10 @@
 package com.akash.a500px
 
 import android.content.Intent
-import android.graphics.drawable.Drawable
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import com.akash.a500px.model.Photo
@@ -13,7 +14,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.ortiz.touchview.TouchImageView
 
 class FullScreenImageViewActivity: AppCompatActivity() {
 
@@ -27,28 +27,34 @@ class FullScreenImageViewActivity: AppCompatActivity() {
         }
     }
 
-    lateinit var imageView: TouchImageView
+    lateinit var imageView: ImageView
     lateinit var progressBar: ProgressBar
     lateinit var photo: Photo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_full_screen_image)
+        supportActionBar?.hide()
 
         imageView = findViewById(R.id.image_view)
         progressBar = findViewById(R.id.progress_bar)
 
+        findViewById<ImageView>(R.id.back).setOnClickListener {
+            onBackPressed()
+        }
+
         photo = intent.getParcelableExtra(EXTRA_DATA_PHOTO)
 
         Glide.with(this)
+            .asBitmap()
             .load(photo.imageUrl)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .fitCenter()
-            .addListener(object : RequestListener<Drawable> {
+            .addListener(object : RequestListener<Bitmap> {
                 override fun onLoadFailed(
                     e: GlideException?,
                     model: Any?,
-                    target: Target<Drawable>?,
+                    target: Target<Bitmap>?,
                     isFirstResource: Boolean
                 ): Boolean {
                     progressBar.visibility = View.GONE
@@ -56,13 +62,13 @@ class FullScreenImageViewActivity: AppCompatActivity() {
                 }
 
                 override fun onResourceReady(
-                    resource: Drawable?,
+                    resource: Bitmap?,
                     model: Any?,
-                    target: Target<Drawable>?,
+                    target: Target<Bitmap>?,
                     dataSource: DataSource?,
                     isFirstResource: Boolean
                 ): Boolean {
-                    progressBar.visibility = View.VISIBLE
+                    progressBar.visibility = View.GONE
                     return false
                 }
 
