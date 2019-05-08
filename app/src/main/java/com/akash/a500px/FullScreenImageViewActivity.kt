@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.akash.a500px.helper.DateFunctionality
 import com.akash.a500px.model.Photo
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -14,6 +16,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import org.w3c.dom.Text
 
 class FullScreenImageViewActivity: AppCompatActivity() {
 
@@ -30,6 +33,8 @@ class FullScreenImageViewActivity: AppCompatActivity() {
     lateinit var imageView: ImageView
     lateinit var progressBar: ProgressBar
     lateinit var photo: Photo
+    lateinit var title: TextView
+    lateinit var subTitle: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +43,8 @@ class FullScreenImageViewActivity: AppCompatActivity() {
 
         imageView = findViewById(R.id.image_view)
         progressBar = findViewById(R.id.progress_bar)
+        title = findViewById(R.id.title)
+        subTitle = findViewById(R.id.sub_title)
 
         findViewById<ImageView>(R.id.back).setOnClickListener {
             onBackPressed()
@@ -74,6 +81,11 @@ class FullScreenImageViewActivity: AppCompatActivity() {
 
             })
             .into(imageView)
+
+
+        title.text = photo.name
+        val subTitleText = getString(R.string.by) + " " + photo.user?.getFullName() + " : " + DateFunctionality.getTimeString(this, photo.createdAt)
+        subTitle.text = subTitleText
 
     }
 }

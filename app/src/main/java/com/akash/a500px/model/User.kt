@@ -4,18 +4,18 @@ import android.os.Parcel
 import android.os.Parcelable
 import org.json.JSONObject
 
-class User (): Parcelable {
+class User() : Parcelable {
     var firstName = ""
     var lastName = ""
     var avatar = ""
 
-    constructor(jsonObject: JSONObject): this() {
+    constructor(jsonObject: JSONObject) : this() {
         firstName = jsonObject.getString("firstname")
         lastName = jsonObject.getString("lastname")
         avatar = jsonObject.getString("userpic_url")
     }
 
-    constructor(source: Parcel) : this(){
+    constructor(source: Parcel) : this() {
         firstName = source.readString()
         lastName = source.readString()
         avatar = source.readString()
@@ -35,5 +35,9 @@ class User (): Parcelable {
             override fun createFromParcel(source: Parcel): User = User(source)
             override fun newArray(size: Int): Array<User?> = arrayOfNulls(size)
         }
+    }
+
+    fun getFullName(): String{
+        return "$firstName $lastName"
     }
 }
