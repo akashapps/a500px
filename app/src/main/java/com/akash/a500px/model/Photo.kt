@@ -2,8 +2,11 @@ package com.akash.a500px.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.akash.a500px.helper.DateFunctionality
 import com.akash.a500px.networking.Config
 import org.json.JSONObject
+import java.util.*
+import kotlin.collections.ArrayList
 
 class Photo() : Parcelable {
     var id: Int = 0
@@ -11,6 +14,7 @@ class Photo() : Parcelable {
     var imageUrl: String = ""
     var imageFormat: String = ""
     var name: String = ""
+    var createdAt = Date()
 
     var height: Int = 0
 
@@ -36,6 +40,10 @@ class Photo() : Parcelable {
         name = jsonObject.getString("name")
 
         user = User(jsonObject.getJSONObject("user"))
+
+        val createAtString = jsonObject.getString("created_at")
+        createdAt = DateFunctionality.getDateFromStringFormat(createAtString)
+
     }
 
     // endregion
@@ -64,6 +72,7 @@ class Photo() : Parcelable {
         imageFormat = source.readString()
         name = source.readString()
         user = source.readParcelable(User::class.java.classLoader)
+        createdAt = Date(source.readLong())
     }
 
     override fun describeContents() = 0
@@ -76,6 +85,7 @@ class Photo() : Parcelable {
         dest.writeString(imageFormat)
         dest.writeString(name)
         dest.writeParcelable(user, flags)
+        dest.writeLong(createdAt.time)
     }
 
     // endregion
