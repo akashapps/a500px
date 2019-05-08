@@ -1,5 +1,6 @@
 package com.akash.a500px
 
+import android.content.Context
 import android.os.Bundle
 import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +14,11 @@ import com.akash.a500px.networking.Config
 import com.akash.a500px.public_interface.ScrollListener
 import com.akash.a500px.viewmodel.PhotoViewModel
 import android.transition.Fade
+import android.util.TypedValue
 import android.view.View
+import com.fivehundredpx.greedolayout.GreedoLayoutManager
+
+
 
 
 class MainActivity : AppCompatActivity(), ScrollListener {
@@ -29,13 +34,13 @@ class MainActivity : AppCompatActivity(), ScrollListener {
         photoViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(PhotoViewModel::class.java)
 
         recyclerView = findViewById(R.id.recycler_view)
-        val layoutManager = GridLayoutManager(this, Config.NUMBER_OF_COLUMN)
-        recyclerView.layoutManager = layoutManager
-
         adapter = PhotoGridAdapter(this);
+        val layoutManager = GreedoLayoutManager(adapter)
+
+        recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
 
-        layoutManager.spanSizeLookup = adapter!!.spanLookup
+        layoutManager.setMaxRowHeight(convertDpToPixels(250F, this))
 
         adapter!!.scrollListener = this
 
@@ -68,4 +73,9 @@ class MainActivity : AppCompatActivity(), ScrollListener {
     override fun recyclerViewOnTouchEvent(event: MotionEvent) {
 
     }
+
+    fun convertDpToPixels(dp: Float, context: Context): Int {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.resources.displayMetrics).toInt()
+    }
+
 }

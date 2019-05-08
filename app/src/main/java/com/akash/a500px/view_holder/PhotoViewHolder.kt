@@ -20,7 +20,7 @@ class PhotoViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         Glide.with(itemView.context)
             .load(photo.imageUrl)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .fitCenter()
+            .centerCrop()
             .into(imageView)
 
     }

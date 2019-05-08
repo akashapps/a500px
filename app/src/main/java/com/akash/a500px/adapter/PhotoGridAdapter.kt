@@ -13,8 +13,9 @@ import com.akash.a500px.R
 import com.akash.a500px.model.Photo
 import com.akash.a500px.public_interface.ScrollListener
 import com.akash.a500px.view_holder.PhotoViewHolder
+import com.fivehundredpx.greedolayout.GreedoLayoutSizeCalculator
 
-class PhotoGridAdapter(private val context: AppCompatActivity): RecyclerView.Adapter<PhotoViewHolder>() {
+class PhotoGridAdapter(private val context: AppCompatActivity): RecyclerView.Adapter<PhotoViewHolder>(), GreedoLayoutSizeCalculator.SizeCalculatorDelegate {
 
     var scrollListener: ScrollListener? = null
     var photoList = ArrayList<Photo>()
@@ -56,6 +57,16 @@ class PhotoGridAdapter(private val context: AppCompatActivity): RecyclerView.Ada
                 FullScreenImageViewActivity.lauch(v, photo, context)
             }
         })
+    }
+
+    override fun aspectRatioForIndex(p0: Int): Double {
+
+        if (p0 >= photoList.size){
+            return 1.0
+        }
+
+        val photo = photoList[p0]
+        return photo.width / photo.height.toDouble()
     }
 
     fun addData(it: List<Photo>?) {
