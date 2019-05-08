@@ -24,6 +24,9 @@ class PhotoRepo private constructor(){
 
     fun getPhotosFromServer(pagingParam: PagingParam, callBack: SimpleApiCallBack<List<Photo>>){
 
+        //TODO:: WE CAN IMPLEMENT CACHE HERE TO PREVENT SENDING SAME REQUEST TO SERVER.
+        //TODO:: OR WE CAN SAVE DATA LOCALLY USING ROOM
+
         AndroidNetworking.get(Config.getPhotoUrl(pagingParam.toString())).build().getAsJSONObject(object : JSONObjectRequestListener{
             override fun onResponse(response: JSONObject?) {
                 pagingParam.totalPage = response?.getInt("total_pages")!!
