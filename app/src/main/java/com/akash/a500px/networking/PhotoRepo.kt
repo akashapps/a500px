@@ -40,4 +40,17 @@ class PhotoRepo private constructor(){
 
         })
     }
+
+    fun getSinglePhoto(id: String, callBack: SimpleApiCallBack<JSONObject?>){
+        AndroidNetworking.get(Config.getSinglePhotoUrl(id)).build().getAsJSONObject(object : JSONObjectRequestListener{
+            override fun onResponse(response: JSONObject?) {
+                callBack.onResponse(response, true)
+            }
+
+            override fun onError(anError: ANError?) {
+                // handle fail response
+            }
+
+        })
+    }
 }

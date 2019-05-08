@@ -19,6 +19,9 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import android.transition.Fade
+import com.akash.a500px.networking.PhotoRepo
+import com.akash.a500px.public_interface.SimpleApiCallBack
+import org.json.JSONObject
 
 class FullScreenImageViewActivity: AppCompatActivity() {
 
@@ -69,9 +72,26 @@ class FullScreenImageViewActivity: AppCompatActivity() {
 
         photo = intent.getParcelableExtra(EXTRA_DATA_PHOTO)
 
+        loadImageToImageView(photo.imageUrl)
+
+        title.text = photo.name
+        val subTitleText = getString(R.string.by) + " " + photo.user?.getFullName() + " : " + DateFunctionality.getTimeString(this, photo.createdAt)
+        subTitle.text = subTitleText
+
+        PhotoRepo.getInstance().getSinglePhoto(photo.id.toString(), object: SimpleApiCallBack<JSONObject?>{
+            override fun onResponse(data: JSONObject?, success: Boolean) {
+                if (success){
+                    val url = data?.getJSONObject("photo")?.getString("image_url")
+                    url?.let { loadImageToImageView(it) }
+                }
+            }
+        })
+    }
+
+    fun loadImageToImageView(url: String){
         Glide.with(this)
             .asBitmap()
-            .load(photo.imageUrl)
+            .load(url)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .fitCenter()
             .addListener(object : RequestListener<Bitmap> {
@@ -100,11 +120,5 @@ class FullScreenImageViewActivity: AppCompatActivity() {
 
             })
             .into(imageView)
-
-
-        title.text = photo.name
-        val subTitleText = getString(R.string.by) + " " + photo.user?.getFullName() + " : " + DateFunctionality.getTimeString(this, photo.createdAt)
-        subTitle.text = subTitleText
-
     }
 }
