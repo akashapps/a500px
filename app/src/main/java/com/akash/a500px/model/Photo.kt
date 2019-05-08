@@ -59,6 +59,11 @@ class Photo() : Parcelable {
         return imageFormat.toLowerCase().equals("gif")
     }
 
+    fun resetColumnAndImageRatio(){
+        column = 1
+        imageRatio = 0f
+    }
+
     // endregion
 
     // *********************************************************************************************
@@ -114,42 +119,8 @@ class Photo() : Parcelable {
                 }
             }
 
-            if (photoList.size == 0) {
-                return photoList
-            }
-
+            return photoList
             // update coulumn
-
-            val result = ArrayList<Photo>()
-            val row = ArrayList<Photo>()
-            var rowRatio = 0f
-
-            for (photo in photoList) {
-                var ratio = photo.width / photo.height.toFloat()
-
-                photo.imageRatio = ratio
-
-                result.add(photo)
-                rowRatio += ratio
-
-                if (rowRatio > 2f) {
-                    var used = 0
-
-                    for (photoRow in row) {
-                        photoRow.column = ((Config.NUMBER_OF_COLUMN * photoRow.column) / rowRatio).toInt()
-                        used += photoRow.column
-                    }
-
-                    photo.column = Config.NUMBER_OF_COLUMN - used
-
-                    row.clear()
-                    rowRatio = 0f
-
-                } else {
-                    row.add(photo)
-                }
-            }
-            return result
         }
 
         @JvmField

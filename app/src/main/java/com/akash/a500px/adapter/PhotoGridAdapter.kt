@@ -22,6 +22,10 @@ class PhotoGridAdapter(private val context: AppCompatActivity): RecyclerView.Ada
         override fun getSpanSize(i: Int): Int {
             return photoList[i].column
         }
+
+        override fun isSpanIndexCacheEnabled(): Boolean {
+            return false
+        }
     }
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): PhotoViewHolder {
@@ -59,8 +63,13 @@ class PhotoGridAdapter(private val context: AppCompatActivity): RecyclerView.Ada
             return
         }
 
+        photoList.clear()
         photoList.addAll(it)
 
-        notifyItemRangeInserted(photoList.size - 1, it.size)
+        notifyDataSetChanged()
+
+//        photoList.addAll(it)
+//
+//        notifyItemRangeInserted(photoList.size - 1, it.size)
     }
 }
