@@ -1,8 +1,8 @@
 package com.akash.a500px.viewmodel
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import com.akash.a500px.model.Photo
 import com.akash.a500px.networking.PagingParam
 import com.akash.a500px.networking.PhotoRepo

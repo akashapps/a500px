@@ -1,17 +1,19 @@
 package com.akash.a500px.adapter
 
-import android.content.Context
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.akash.a500px.FullScreenImageViewActivity
 import com.akash.a500px.R
 import com.akash.a500px.model.Photo
 import com.akash.a500px.public_interface.ScrollListener
 import com.akash.a500px.view_holder.PhotoViewHolder
 
-class PhotoGridAdapter(private val context: Context): RecyclerView.Adapter<PhotoViewHolder>() {
+class PhotoGridAdapter(private val context: AppCompatActivity): RecyclerView.Adapter<PhotoViewHolder>() {
 
     var scrollListener: ScrollListener? = null
     var photoList = ArrayList<Photo>()
@@ -40,7 +42,14 @@ class PhotoGridAdapter(private val context: Context): RecyclerView.Adapter<Photo
             scrollListener?.recyclerViewDidScrollBottom()
         }
 
-        p0.setData(photoList[p1])
+        val photo = photoList[p1]
+        p0.setData(photo)
+
+        p0.itemView.setOnClickListener(object : View.OnClickListener{
+            override fun onClick(v: View?) {
+                FullScreenImageViewActivity.lauch(photo, context)
+            }
+        })
     }
 
     fun addData(it: List<Photo>?) {
