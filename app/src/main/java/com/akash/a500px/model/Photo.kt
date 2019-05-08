@@ -20,6 +20,8 @@ class Photo() : Parcelable {
 
     var column: Int = 1
 
+    var user: User? = null
+
     // *********************************************************************************************
     // region Constructor
 
@@ -32,6 +34,8 @@ class Photo() : Parcelable {
 
         imageFormat = jsonObject.getString("image_format")
         name = jsonObject.getString("name")
+
+        user = User(jsonObject.getJSONObject("user"))
     }
 
     // endregion
@@ -59,6 +63,7 @@ class Photo() : Parcelable {
         width = source.readInt()
         imageFormat = source.readString()
         name = source.readString()
+        user = source.readParcelable(User::class.java.classLoader)
     }
 
     override fun describeContents() = 0
@@ -70,6 +75,7 @@ class Photo() : Parcelable {
         dest.writeInt(width)
         dest.writeString(imageFormat)
         dest.writeString(name)
+        dest.writeParcelable(user, flags)
     }
 
     // endregion
