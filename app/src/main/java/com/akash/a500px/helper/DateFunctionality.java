@@ -33,7 +33,7 @@ public class DateFunctionality {
         if (Strings.isNullOrEmpty(dateString)) {
             return new Date();
         }
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
         format.setTimeZone(TimeZone.getTimeZone(Calendar.getInstance().getTimeZone().toString()));
         Date date;
         try {
