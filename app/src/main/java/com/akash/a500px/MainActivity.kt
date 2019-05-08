@@ -12,6 +12,9 @@ import com.akash.a500px.model.Photo
 import com.akash.a500px.networking.Config
 import com.akash.a500px.public_interface.ScrollListener
 import com.akash.a500px.viewmodel.PhotoViewModel
+import android.transition.Fade
+import android.view.View
+
 
 class MainActivity : AppCompatActivity(), ScrollListener {
 
@@ -37,6 +40,7 @@ class MainActivity : AppCompatActivity(), ScrollListener {
         adapter!!.scrollListener = this
 
         observeViewModel()
+
     }
 
     private fun observeViewModel() {

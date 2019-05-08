@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.akash.a500px.FullScreenImageViewActivity
@@ -47,7 +48,8 @@ class PhotoGridAdapter(private val context: AppCompatActivity): RecyclerView.Ada
 
         p0.itemView.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
-                FullScreenImageViewActivity.lauch(photo, context)
+                v?.let { ViewCompat.setTransitionName(it, "example_transition") }
+                FullScreenImageViewActivity.lauch(v, photo, context)
             }
         })
     }

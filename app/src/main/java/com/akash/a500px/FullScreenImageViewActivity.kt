@@ -8,6 +8,8 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.ViewCompat
 import com.akash.a500px.helper.DateFunctionality
 import com.akash.a500px.model.Photo
 import com.bumptech.glide.Glide
@@ -16,17 +18,22 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import org.w3c.dom.Text
+import android.transition.Fade
 
 class FullScreenImageViewActivity: AppCompatActivity() {
 
     companion object{
         val EXTRA_DATA_PHOTO = "EXTRA_DATA_PHOTO"
 
-        fun lauch(photo: Photo, appCompatActivity: AppCompatActivity){
+        fun lauch(v: View?, photo: Photo, appCompatActivity: AppCompatActivity){
             val intent = Intent(appCompatActivity, FullScreenImageViewActivity::class.java)
+            var option = v?.let {
+                ActivityOptionsCompat.makeSceneTransitionAnimation(appCompatActivity, it,
+                    ViewCompat.getTransitionName(v).toString()
+                )
+            }
             intent.putExtra(EXTRA_DATA_PHOTO, photo)
-            appCompatActivity.startActivity(intent)
+            appCompatActivity.startActivity(intent, option?.toBundle())
         }
     }
 
@@ -39,6 +46,16 @@ class FullScreenImageViewActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_full_screen_image)
+
+        val fade = Fade()
+        val decor = window.decorView
+        fade.excludeTarget(decor.findViewById<View>(R.id.action_bar_container), true)
+        fade.excludeTarget(android.R.id.statusBarBackground, true)
+        fade.excludeTarget(android.R.id.navigationBarBackground, true)
+
+        window.enterTransition = fade
+        window.exitTransition = fade
+
         supportActionBar?.hide()
 
         imageView = findViewById(R.id.image_view)
@@ -65,6 +82,7 @@ class FullScreenImageViewActivity: AppCompatActivity() {
                     isFirstResource: Boolean
                 ): Boolean {
                     progressBar.visibility = View.GONE
+                    supportPostponeEnterTransition()
                     return false
                 }
 
@@ -76,6 +94,7 @@ class FullScreenImageViewActivity: AppCompatActivity() {
                     isFirstResource: Boolean
                 ): Boolean {
                     progressBar.visibility = View.GONE
+                    supportPostponeEnterTransition()
                     return false
                 }
 
